@@ -19,7 +19,7 @@ class AddUserComponent extends Component{
         ApiService.addUser(user)
             .then(res => {
                 this.setState({message : 'User added successfully.'});
-                this.props.history.push('/api/users');
+                this.props.history.push('');
             });
     }
 

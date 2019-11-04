@@ -21,11 +21,12 @@ class EditUserComponent extends Component {
     loadUser() {
         ApiService.fetchUserById(window.localStorage.getItem("userId"))
             .then((res) => {
-                let user = res.data.result;
+                let user = res.data;
+                console.log(user);
                 this.setState({
                 id: user.id,
-                username: user.username,
                 firstName: user.firstName,
+                lastName: user.lastName
                 })
             });
     }
@@ -39,7 +40,7 @@ class EditUserComponent extends Component {
         ApiService.editUser(user)
             .then(res => {
                 this.setState({message : 'User added successfully.'});
-                this.props.history.push('/api/users');
+                this.props.history.push('');
             });
     }
 

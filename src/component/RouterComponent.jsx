@@ -9,10 +9,9 @@ const AppRouter = () => {
         <div>
             <Router>
                 <div className="col-md-6">
-                    <h1 className="text-center" style={style}>React User Application</h1>
+                    <h1 className="text-center" style={style}>REACT Web Application connecting to Java & Spring backend</h1>
                     <Switch>
                         <Route path="/" exact component={ListUserComponent} />
-                        <Route path="/users" component={ListUserComponent} />
                         <Route path="/add-user" component={AddUserComponent} />
                         <Route path="/edit-user" component={EditUserComponent} />
                     </Switch>

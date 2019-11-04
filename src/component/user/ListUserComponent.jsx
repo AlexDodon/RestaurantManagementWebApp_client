@@ -22,13 +22,15 @@ class ListUserComponent extends Component {
     reloadUserList() {
         ApiService.fetchUsers()
             .then((res) => {
-                this.setState({users: res.data.result})
+                console.log(res.data);
+                this.setState({users: res.data})
             });
     }
 
     deleteUser(userId) {
         ApiService.deleteUser(userId)
            .then(res => {
+               console.log(res);
                this.setState({message : 'User deleted successfully.'});
                this.setState({users: this.state.users.filter(user => user.id !== userId)});
            })
@@ -60,10 +62,10 @@ class ListUserComponent extends Component {
                     </thead>
                     <tbody>
                     {
-                        console.log(this.state.users)
-                       /*    this.state.users.map(
+                        this.state.users.map(
                         user =>
                                     <tr key={user.id}>
+                                        <td>{user.id}</td>
                                         <td>{user.firstName}</td>
                                         <td>{user.lastName}</td>
                                         <td> 
@@ -72,7 +74,6 @@ class ListUserComponent extends Component {
                                         </td>
                                     </tr>
                             )
-                            */
                         }
                         
                     </tbody>
