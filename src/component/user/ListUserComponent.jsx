@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ApiService from "../../service/ApiService";
+import UserApiService from "../../service/UserApiService";
 
 class ListUserComponent extends Component {
 
@@ -20,7 +20,7 @@ class ListUserComponent extends Component {
     }
 
     reloadUserList() {
-        ApiService.fetchUsers()
+        UserApiService.fetchUsers()
             .then((res) => {
                 console.log(res.data);
                 this.setState({users: res.data})
@@ -28,7 +28,7 @@ class ListUserComponent extends Component {
     }
 
     deleteUser(userId) {
-        ApiService.deleteUser(userId)
+        UserApiService.deleteUser(userId)
            .then(res => {
                console.log(res);
                this.setState({message : 'User deleted successfully.'});
@@ -39,12 +39,12 @@ class ListUserComponent extends Component {
 
     editUser(id) {
         window.localStorage.setItem("userId", id);
-        this.props.history.push('/edit-user');
+        this.props.history.push('/general/edit-user');
     }
 
     addUser() {
         window.localStorage.removeItem("userId");
-        this.props.history.push('/add-user');
+        this.props.history.push('/general/add-user');
     }
 
     render() {
@@ -58,6 +58,8 @@ class ListUserComponent extends Component {
                             <th className="hidden">Id</th>
                             <th>FirstName</th>
                             <th>LastName</th>
+                            <th>Username</th>
+                            <th>Roles</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -68,6 +70,8 @@ class ListUserComponent extends Component {
                                         <td>{user.id}</td>
                                         <td>{user.firstName}</td>
                                         <td>{user.lastName}</td>
+                                        <td>{user.username}</td>
+                                        <td>{user.roles}</td>
                                         <td> 
                                             <button className="btn btn-success" onClick={() => this.deleteUser(user.id)}> Delete</button>
                                             <button className="btn btn-success" onClick={() => this.editUser(user.id)}> Edit</button>

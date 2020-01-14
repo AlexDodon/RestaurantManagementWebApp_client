@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ApiService from "../../service/ApiService";
+import UserApiService from "../../service/UserApiService";
 
 class EditUserComponent extends Component {
 
@@ -9,6 +9,9 @@ class EditUserComponent extends Component {
             id: '',
             firstName: '',
             lastName: '',
+            username: '',
+            roles: '',
+            password: '',
         }
         this.saveUser = this.saveUser.bind(this);
         this.loadUser = this.loadUser.bind(this);
@@ -19,14 +22,17 @@ class EditUserComponent extends Component {
     }
 
     loadUser() {
-        ApiService.fetchUserById(window.localStorage.getItem("userId"))
+        UserApiService.fetchUserById(window.localStorage.getItem("userId"))
             .then((res) => {
                 let user = res.data;
                 console.log(user);
                 this.setState({
                 id: user.id,
                 firstName: user.firstName,
-                lastName: user.lastName
+                lastName: user.lastName,
+                username: user.username,
+                roles: user.roles,
+                password: user.password,
                 })
             });
     }
@@ -36,11 +42,11 @@ class EditUserComponent extends Component {
 
     saveUser = (e) => {
         e.preventDefault();
-        let user = {id: this.state.id, firstName: this.state.firstName, lastName: this.state.lastName};
-        ApiService.editUser(user)
+        let user = {id: this.state.id, firstName: this.state.firstName, lastName: this.state.lastName, username: this.state.username, roles: this.state.roles, password: this.state.password};
+        UserApiService.editUser(user)
             .then(res => {
                 this.setState({message : 'User added successfully.'});
-                this.props.history.push('');
+                this.props.history.push('/general/list-user');
             });
     }
 
@@ -57,6 +63,21 @@ class EditUserComponent extends Component {
                     <div className="form-group">
                         <label>Last Name:</label>
                         <input placeholder="Last name" name="lastName" className="form-control" value={this.state.lastName} onChange={this.onChange}/>
+                    </div>
+
+                    <div className="form-group">
+                        <label>Username:</label>
+                        <input placeholder="Username" name="username" className="form-control" value={this.state.username} onChange={this.onChange}/>
+                    </div>
+
+                    <div className="form-group">
+                        <label>Roles:</label>
+                        <input placeholder="Roles" name="roles" className="form-control" value={this.state.roles} onChange={this.onChange}/>
+                    </div>
+
+                    <div className="form-group">
+                        <label>Password:</label>
+                        <input placeholder="Password" name="password" className="form-control" value={this.state.password} onChange={this.onChange}/>
                     </div>
 
                     <button className="btn btn-success" onClick={this.saveUser}>Save</button>
