@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { Router, Route, Switch } from 'react-router-dom'
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { ListUserComponent, EditUserComponent, AddUserComponent } from './user'
@@ -8,7 +8,6 @@ import { ListMenuItemComponent, EditMenuItemComponent, AddMenuItemComponent } fr
 import { ListOrderComponent, AddOrderComponent, KitchenOrderComponent } from './order'
 import UserApiService from "../service/UserApiService";
 import React, { Component } from "react";
-import {withRouter} from 'react-router-dom';
 
 class AppRouter extends Component {
     constructor(props) {
@@ -19,6 +18,7 @@ class AppRouter extends Component {
             roles: '',
             message: '',
             users: [],
+            history: props.history,
         }
 
         this.checkLogin = this.checkLogin.bind(this)
@@ -29,19 +29,19 @@ class AppRouter extends Component {
     }
 
     toUsers(e) {
-        this.props.history.push('/general/list-user');
+        this.state.history.push('/general/list-user');
     }
 
     toMenu(e) {
-        this.props.history.push('/general/list-menuItem');
+        this.state.history.push('/general/list-menuItem');
     }
 
     toSuppliers(e) {
-        this.props.history.push('/logistic/list-supplier');
+        this.state.history.push('/logistic/list-supplier');
     }
 
     toStock(e) {
-        this.props.history.push('/logistic/list-stock');
+        this.state.history.push('/logistic/list-stock');
     }
 
     componentDidMount() {
@@ -72,16 +72,16 @@ class AppRouter extends Component {
         if (search.length > 0) {
             this.setState({roles: search[0].roles, message: "Logged in!"})
             if (this.state.roles === 'General') {
-                this.props.history.push('/general');
+                this.state.history.push('/general');
             }
             if (this.state.roles === 'Logistics') {
-                this.props.history.push('/logistic');
+                this.state.history.push('/logistic');
             }
             if (this.state.roles === 'Waiter') {
-                this.props.history.push('/waiter');
+                this.state.history.push('/waiter');
             }
             if (this.state.roles === 'Chef') {
-                this.props.history.push('/chef');
+                this.state.history.push('/chef');
             }
         } else {
             this.setState({message: "Username or Password incorrect"})
@@ -95,7 +95,7 @@ class AppRouter extends Component {
                 justifyContent: "center",
                 alignItems: "center"
             }}>
-                <Router>
+                <Router history={this.state.history}>
                     <div className="col-md-6" >
                         <Switch>
                             <Route path="/" exact>
@@ -159,4 +159,4 @@ class AppRouter extends Component {
     }
 }
 
-export default withRouter(AppRouter);
+export default AppRouter;
